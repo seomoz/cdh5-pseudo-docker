@@ -32,4 +32,4 @@ exec docker run \
   -p 65010:65010 \
   -p 65020:65020 \
   -p 65030:65030 \
-  -ti hbase-all bash
+  -d b4hand/cdh5-pseudo-docker
