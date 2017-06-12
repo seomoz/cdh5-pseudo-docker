@@ -6,7 +6,7 @@ Uses Java 8 and CDH 5.11.0. Includes HDFS, HBase, and YARN.
 ## Usage
 
 ```
-git clone git@github.com:b4hand/cdh5-pseudo-docker.git
+git clone git@github.com:seomoz/cdh5-pseudo-docker.git
 cd cdh5-pseudo-docker
 docker pull b4hand/cdh5-pseudo-docker
 # Use this to expose all of the ports for CDH5.
