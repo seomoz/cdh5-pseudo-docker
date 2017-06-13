@@ -47,6 +47,7 @@ RUN sudo -u hdfs hdfs namenode -format && \
   service hadoop-hdfs-namenode stop && \
   service hadoop-hdfs-datanode stop
 
+ADD hdfs-site.xml /etc/hadoop/conf/hdfs-site.xml
 ADD hbase-site.xml /etc/hbase/conf/hbase-site.xml
 
 ADD start.sh /start.sh
