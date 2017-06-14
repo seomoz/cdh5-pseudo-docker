@@ -11,7 +11,7 @@ RUN add-apt-repository ppa:webupd8team/java
 
 # Configure Cloudera repository for Hadoop & HBase
 ADD cloudera.list /etc/apt/sources.list.d/cloudera.list
-RUN curl -s http://archive.cloudera.com/cdh5/ubuntu/precise/amd64/cdh/archive.key | \
+RUN curl -s http://archive.cloudera.com/cdh5/ubuntu/trusty/amd64/cdh/archive.key | \
   apt-key add - && \
   echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections
 
@@ -28,7 +28,7 @@ RUN apt-get update && \
     hbase-regionserver \
     # Force installation of zookeeper from CDH repo, otherwise Ubuntu
     # one is installed and conflicts.
-    zookeeper/precise-cdh5.11.0 \
+    zookeeper/trusty-cdh5.11.1 \
     zookeeper-server && \
   service zookeeper-server init && \
   (service hbase-regionserver stop; \
