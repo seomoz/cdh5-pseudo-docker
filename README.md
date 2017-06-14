@@ -1,7 +1,7 @@
 # cdh5-pseudo-docker
 Pseudo-distributed HBase Docker image based on CDH5 including YARN
 
-Uses Java 8 and CDH 5.11.0. Includes HDFS, HBase, and YARN.
+Uses Java 8 and CDH 5.11.1. Includes HDFS, HBase, and YARN.
 
 ## Usage
 
