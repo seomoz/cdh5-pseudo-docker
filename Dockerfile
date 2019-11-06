@@ -9,12 +9,11 @@ ENV LANG C.UTF-8
 ENV LANGUAGE en_US:C
 ENV LC_ALL C.UTF-8
 
-# Install amazon's corretto packaging of openJDK
+# Install openjdk-r/ppa packaging of openJDK
 RUN apt-get update && apt-get install -y python3-software-properties software-properties-common curl
-RUN sudo apt-get install java-common
-RUN curl -s https://d3pxv6yz143wms.cloudfront.net/8.232.09.1/java-1.8.0-amazon-corretto-jdk_8.232.09-1_amd64.deb -o java-1.8.0-amazon-corretto-jdk_8.232.09-1_amd64.deb
-RUN sudo dpkg --install java-1.8.0-amazon-corretto-jdk_8.232.09-1_amd64.deb
-RUN sudo ln -s /usr/lib/jvm/java-1.8.0-amazon-corretto /usr/lib/jvm/java-8-openjdk
+RUN add-apt-repository ppa:openjdk-r/ppa && apt-get update
+RUN apt-get install -y openjdk-8-jdk
+RUN ln -s /usr/lib/jvm/java-8-openjdk-amd64 /usr/lib/jvm/java-8-openjdk
 
 # Configure Cloudera repository for Hadoop & HBase
 ADD cloudera.list.${CDH_VERSION} /etc/apt/sources.list.d/cloudera.list

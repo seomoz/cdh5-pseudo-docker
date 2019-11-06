@@ -1,9 +1,9 @@
 #!/bin/bash
 
 image="seomoz_cdh5_16_standalone:v2"
-if [ $1 == "5.11" ]
+if [ "${1}" == "5.11" ]
 then
-	image="seomoz_cdh511_standalone:v2"
+	image="seomoz_cdh5_11_standalone:v2"
 fi
 
 exec docker run \
