@@ -1,7 +1,7 @@
 # cdh5-pseudo-docker
 Pseudo-distributed HBase Docker image based on CDH5 including YARN
 
-Uses Java 8 and CDH 5.11.1. Includes HDFS, HBase, and YARN.
+Uses Java 8 (openJDK) and CDH 5.11.1 or 5.16.1. Includes HDFS, HBase, and YARN.
 
 ## Usage
 
@@ -9,8 +9,10 @@ Uses Java 8 and CDH 5.11.1. Includes HDFS, HBase, and YARN.
 git clone git@github.com:seomoz/cdh5-pseudo-docker.git
 cd cdh5-pseudo-docker
 docker pull seomoz/cdh5-pseudo-docker
+# Use this to build a local image 
+./build.sh [5.11\|5.16]
 # Use this to expose all of the ports for CDH5.
-./run.sh
+./run.sh [5.11\|5.16]
 ```
 
 ## Docker Hub

@@ -1,5 +1,11 @@
 #!/bin/bash
 
+image="seomoz_cdh5_16_standalone:v2"
+if [ $1 == "5.11" ]
+then
+	image="seomoz_cdh511_standalone:v2"
+fi
+
 exec docker run \
   -p 1004:1004 \
   -p 1006:1006 \
@@ -32,4 +38,4 @@ exec docker run \
   -p 65010:65010 \
   -p 65020:65020 \
   -p 65030:65030 \
-  -d b4hand/cdh5-pseudo-docker
+  -d ${image}
