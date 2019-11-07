@@ -1,0 +1,2 @@
+deb [arch=amd64] http://archive.cloudera.com/cdh5/ubuntu/xenial/amd64/cdh xenial-cdhVERSION contrib
+deb-src http://archive.cloudera.com/cdh5/ubuntu/xenial/amd64/cdh xenial-cdhVERSION contrib

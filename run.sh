@@ -1,10 +1,15 @@
 #!/bin/bash
-
-image="seomoz_cdh5_16_standalone:v2"
-if [ "${1}" == "5.11" ]
+jdk="openjdk"
+cdh_version="5.16.1"
+if [ "${1}" == "oracle" ]
 then
-	image="seomoz_cdh5_11_standalone:v2"
+        jdk="oraclejdk"
 fi
+if [ "${1}" == "5.11" -o "${2}" == "5.11" ]
+then
+        cdh_version="5.11.1"
+fi
+image="seomoz_cdh_${cdh_version}_${jdk}_standalone:v2"
 
 exec docker run \
   -p 1004:1004 \

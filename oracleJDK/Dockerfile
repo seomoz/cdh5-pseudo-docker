@@ -1,7 +1,4 @@
-FROM ubuntu:14.04
-
-ARG cdh_version
-ENV CDH_VERSION=$cdh_version
+FROM ubuntu:16.04
 
 # Prevent docker's default encoding of ASCII.
 # https://oncletom.io/2015/docker-encoding/
@@ -9,19 +6,23 @@ ENV LANG C.UTF-8
 ENV LANGUAGE en_US:C
 ENV LC_ALL C.UTF-8
 
-# Install openjdk-r/ppa packaging of openJDK
+ARG cdh_version
+ARG java_tar
+ENV CDH_VERSION=$cdh_version
+ENV JAVA_TAR=$java_tar
+
 RUN apt-get update && apt-get install -y python3-software-properties software-properties-common curl
-RUN add-apt-repository ppa:openjdk-r/ppa && apt-get update
-RUN apt-get install -y openjdk-8-jdk
-RUN ln -s /usr/lib/jvm/java-8-openjdk-amd64 /usr/lib/jvm/java-8-openjdk
+RUN apt-get install -y sudo
 
 # Configure Cloudera repository for Hadoop & HBase
-ADD cloudera.list.${CDH_VERSION} /etc/apt/sources.list.d/cloudera.list
-RUN curl -s http://archive.cloudera.com/cdh5/ubuntu/trusty/amd64/cdh/archive.key | apt-key add -
-
+ADD cloudera.list /etc/apt/sources.list.d/cloudera.list
+ADD ${JAVA_TAR} /usr/lib/jvm
+RUN ln -s /usr/lib/jvm/jdk1.8* /usr/lib/jvm/java-8-oracle
+RUN sed -i "s/VERSION/${CDH_VERSION}/g" /etc/apt/sources.list.d/cloudera.list
+RUN curl -s http://archive.cloudera.com/cdh5/ubuntu/xenial/amd64/cdh/archive.key | apt-key add -
 
 RUN apt-get update && \
-    apt-get install -y \
+  apt-get install -y \
     hadoop-client \
     hadoop-conf-pseudo \
     hadoop-yarn \
@@ -32,24 +33,24 @@ RUN apt-get update && \
     hbase-regionserver \
     # Force installation of zookeeper from CDH repo, otherwise Ubuntu
     # one is installed and conflicts.
-    zookeeper/trusty-cdh${CDH_VERSION} \
+    zookeeper/xenial-cdh${CDH_VERSION} \
     zookeeper-server && \
     service zookeeper-server init && \
     (service hbase-regionserver stop; \
      service hbase-master stop; \
-    service hadoop-yarn-resourcemanager stop; \
-    service hadoop-yarn-nodemanager stop; \
-    service hadoop-hdfs-datanode stop; \
-    service hadoop-hdfs-namenode stop; \
+     service hadoop-yarn-resourcemanager stop; \
+     service hadoop-yarn-nodemanager stop; \
+     service hadoop-hdfs-datanode stop; \
+     service hadoop-hdfs-namenode stop; \
     true)
 
 # Initial filesystem
 RUN sudo -u hdfs hdfs namenode -format && \
-   service hadoop-hdfs-namenode start && \
-   service hadoop-hdfs-datanode start && \
-   /usr/lib/hadoop/libexec/init-hdfs.sh && \
-   service hadoop-hdfs-namenode stop && \
-   service hadoop-hdfs-datanode stop
+  service hadoop-hdfs-namenode start && \
+  service hadoop-hdfs-datanode start && \
+  /usr/lib/hadoop/libexec/init-hdfs.sh && \
+  service hadoop-hdfs-namenode stop && \
+  service hadoop-hdfs-datanode stop
 
 ADD hdfs-site.xml /etc/hadoop/conf/hdfs-site.xml
 ADD hbase-site.xml /etc/hbase/conf/hbase-site.xml
