@@ -1,4 +1,15 @@
 #!/bin/bash
+jdk="openjdk"
+cdh_version="5.16.1"
+if [ "${1}" == "oracle" ]
+then
+        jdk="oraclejdk"
+fi
+if [ "${1}" == "5.11" -o "${2}" == "5.11" ]
+then
+        cdh_version="5.11.1"
+fi
+image="seomoz_cdh_${cdh_version}_${jdk}_standalone:v2"
 
 exec docker run \
   -p 1004:1004 \
@@ -32,4 +43,4 @@ exec docker run \
   -p 65010:65010 \
   -p 65020:65020 \
   -p 65030:65030 \
-  -d b4hand/cdh5-pseudo-docker
+  -d ${image}
